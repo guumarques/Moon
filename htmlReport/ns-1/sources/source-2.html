@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CanalTicket</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">Ticket</a>
+</div>
+
+<h1>Coverage Summary for Class: CanalTicket (Ticket)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CanalTicket</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package Ticket;
+&nbsp;
+&nbsp;import net.dv8tion.jda.api.Permission;
+&nbsp;import net.dv8tion.jda.api.entities.Member;
+&nbsp;import net.dv8tion.jda.api.entities.User;
+&nbsp;import net.dv8tion.jda.api.entities.channel.concrete.Category;
+&nbsp;import net.dv8tion.jda.api.entities.Guild;
+&nbsp;import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+&nbsp;import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+&nbsp;import net.dv8tion.jda.api.hooks.ListenerAdapter;
+&nbsp;
+&nbsp;import java.util.EnumSet;
+&nbsp;
+&nbsp;public class CanalTicket extends ListenerAdapter
+&nbsp;{
+&nbsp;    private final EmbedTicket embedTicket;
+&nbsp;
+&nbsp;    public void criarCanal(Guild guild, User user, ButtonInteractionEvent event)
+&nbsp;    {
+<b class="nc">&nbsp;        Category category = guild.getCategoryById(&quot;1223415954550034433&quot;);</b>
+<b class="nc">&nbsp;        String nome = user.getName();</b>
+<b class="nc">&nbsp;        Member member = event.getMember();</b>
+&nbsp;
+<b class="nc">&nbsp;        event.deferReply(true).queue();</b>
+<b class="nc">&nbsp;        if(category != null &amp;&amp; member != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            category.createTextChannel(nome)</b>
+<b class="nc">&nbsp;                    .addPermissionOverride(guild.getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL)) // Deny @everyone</b>
+<b class="nc">&nbsp;                    .addPermissionOverride(member, EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND), null) // Allow specific member</b>
+<b class="nc">&nbsp;                    .queue(</b>
+&nbsp;                    canal -&gt;
+&nbsp;                    {
+<b class="nc">&nbsp;                        event.getHook().sendMessage(&quot;Canal criado em &quot; + canal.getAsMention()).queue();</b>
+<b class="nc">&nbsp;                        mensagemCanal(canal, guild, user);</b>
+&nbsp;                    }
+&nbsp;            );
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void mensagemCanal(TextChannel channel, Guild guild, User user)
+&nbsp;    {
+<b class="nc">&nbsp;        channel.sendMessageEmbeds(embedTicket.ticketAberto(guild, user)).queue();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public CanalTicket(EmbedTicket embedTicket) {</b>
+<b class="nc">&nbsp;        this.embedTicket = embedTicket;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-09 00:54</div>
+</div>
+</body>
+</html>
