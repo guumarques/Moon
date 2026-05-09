@@ -1,5 +1,6 @@
 package Ticket;
 
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class TicketDenuncia extends ListenerAdapter
 {
     private final EmbedTicket embed;
+    private final BotaoTicket botao;
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
@@ -27,13 +29,14 @@ public class TicketDenuncia extends ListenerAdapter
         {
             if(denunciaCanal != null)
             {
-                embed.chatTicket(guild, denunciaCanal);
+                denunciaCanal.sendMessageEmbeds(embed.chatTicket(guild)).setComponents(ActionRow.of(botao.botao(guild))).queue();
             }
         }
     }
 
-    public TicketDenuncia(EmbedTicket embed)
+    public TicketDenuncia(EmbedTicket embed, BotaoTicket botao)
     {
         this.embed = embed;
+        this.botao = botao;
     }
 }

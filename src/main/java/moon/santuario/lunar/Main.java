@@ -16,10 +16,10 @@ public class Main
     {
         JDA api = JDABuilder.createDefault("").enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
 
-        CanalTicket canalTicket = new CanalTicket();
+        EmbedTicket embedTicket = new EmbedTicket();
+        CanalTicket canalTicket = new CanalTicket(embedTicket);
         BotaoTicket botaoTicket = new BotaoTicket(canalTicket);
-        EmbedTicket embedTicket = new EmbedTicket(botaoTicket);
-        TicketDenuncia ticketDenuncia = new TicketDenuncia(embedTicket);
+        TicketDenuncia ticketDenuncia = new TicketDenuncia(embedTicket, botaoTicket);
 
         api.addEventListener(ticketDenuncia, botaoTicket); // registra os dois separadamente
     }

@@ -1,16 +1,18 @@
 package Ticket;
 
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.ChannelAction;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -18,10 +20,19 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class TicketDenunciaTest
 {
     @Mock
+    private MessageCreateAction messageCreateAction;
+
+    @Mock
+    private MessageEmbed messageEmbed;
+
+    @Mock
     private EmbedTicket embedTicket;
 
     @Mock
     private TextChannel channel;
+
+    @Mock
+    private BotaoTicket botaoTicket;
 
     @Mock
     private Guild guild;
@@ -35,12 +46,6 @@ public class TicketDenunciaTest
     @Mock
     private MessageReceivedEvent event;
 
-    @Mock
-    private TextChannel textChannel;
-
-    @Mock
-    private ChannelAction<TextChannel> channelAction;
-
     @InjectMocks
     private TicketDenuncia denuncia;
 
@@ -50,28 +55,21 @@ public class TicketDenunciaTest
         //arrange - define o comportamento do mock(pensando no retorno da funcionalidade)
         when(event.getGuild()).thenReturn(guild);
         when(guild.getTextChannelById("1228530812044050503")).thenReturn(channel);
-        when(event.getChannel()).thenReturn(messageChannelUnion); //retorna messagechannelunion em vez de channel haha
+        when(event.getChannel()).thenReturn(messageChannelUnion);
         when(messageChannelUnion.getId()).thenReturn("1228530812044050503");
         when(event.getMessage()).thenReturn(message);
         when(message.getContentRaw()).thenReturn("!ticket");
+        when(botaoTicket.botao(guild)).thenReturn(Button.secondary("abrir_ticket", "Abrir"));
+        when(embedTicket.chatTicket(guild)).thenReturn(messageEmbed);
+        when(channel.sendMessageEmbeds(messageEmbed)).thenReturn(messageCreateAction);
+        when(messageCreateAction.setComponents((MessageTopLevelComponent[]) any())).thenReturn(messageCreateAction);
 
-        //act
+        //act - o que eu quero testar(no caso, seria se a embed é enviada quando digito o comando)
         denuncia.onMessageReceived(event);
 
         //assert - tô verificando comportamento, não resultado
-        verify(embedTicket).chatTicket(guild, channel);
-    }
-
-    @Test
-    public void criaTicketTest()
-    {/*
-         when(guild.createTextChannel("teste")).thenReturn(channelAction);
-         when(channelAction.complete()).thenReturn(textChannel);
-
-         TextChannel resultado = denuncia.criarCanal(guild, "teste");
-
-         assertNotNull(resultado);
-         verify(guild).createTextChannel(anyString());
-         */
+        verify(embedTicket).chatTicket(guild); //verifica se o método chatTicket foi chamado
+        verify(botaoTicket).botao(guild);
+        verify(channel).sendMessageEmbeds(any(MessageEmbed.class));
     }
 }
