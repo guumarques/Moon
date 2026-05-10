@@ -68,10 +68,18 @@ jobs:
     needs: [ Test, Build ]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Package
+          path: target/
       - name: Setup Square Cloud
         uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
         with:
-          command: commit ${{ secrets.SQUARE_APPLICATION_ID }}
+          command: commit ${{ secrets.SQUARE_APPLICATION_ID }} --restart
           token: '${{ secrets.SQUARE_TOKEN }}'
 
   Notification:
