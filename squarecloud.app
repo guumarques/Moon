@@ -1,5 +1,5 @@
 DISPLAY_NAME=Moon
-MAIN=target/Moon-1.0-SNAPSHOT.jar
+MAIN=Moon-1.0-SNAPSHOT.jar
 MEMORY=256
 VERSION=latest
 DESCRIPTION=Bot do Santuário Lunar
