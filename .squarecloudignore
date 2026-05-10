@@ -2,4 +2,12 @@
 .github
 .idea
 htmlReport
-target
+target/archive-tmp
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-archiver
+target/maven-status
+target/reports
+target/surefire-reports
+target/test-classes

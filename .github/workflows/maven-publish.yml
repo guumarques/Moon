@@ -77,14 +77,8 @@ jobs:
           name: Package
           path: ./
 
-      - name: Lista arquivos antes do deploy
+      - name: List files before deploy
         run: ls -la
-
-      - name: Prepara pasta para deploy
-        run: |
-          mkdir deploy
-          cp Moon-1.0-SNAPSHOT.jar deploy/
-          cp squarecloud.app deploy/
 
       - name: Setup Square Cloud
         uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
