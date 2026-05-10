@@ -88,7 +88,7 @@ jobs:
             Status do Build: ${{ needs.Build.result }}
             Logs do erro aqui: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           to: ${{ secrets.MY_EMAIL }}
-          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          from: Moon <${{ secrets.MAIL_USERNAME }}>
 
       # CASO 2: SUCESSO
       - name: Send Success Email to Client
@@ -109,4 +109,4 @@ jobs:
             Atenciosamente,
             Equipe do Santuário Lunar
           to: ${{ secrets.MY_EMAIL }}
-          from: GitHub Actions <${{ secrets.MAIL_USERNAME }}>
+          from: Moon <${{ secrets.MAIL_USERNAME }}>
