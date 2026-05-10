@@ -22,7 +22,7 @@ jobs:
           cache-dependency-path: 'pom.xml'
 
       - name: Test with Maven
-        run: mvn --batch-mode clean test -Dnet.bytebuddy.experimental=true -XX:+EnableDynamicAgentLoading
+        run: mvn --batch-mode clean test
 
       - name: Generate report
         run: mvn surefire-report:report-only
