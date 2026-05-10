@@ -110,3 +110,13 @@ jobs:
             Equipe do Santuário Lunar
           to: ${{ secrets.MY_EMAIL }}
           from: Moon <${{ secrets.MAIL_USERNAME }}>
+
+  Deploy:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Square Cloud
+        uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
+        with:
+          command: commit ${{ secrets.SQUARE_APPLICATION_ID }}
+          token: '${{ secrets.SQUARE_TOKEN }}'
