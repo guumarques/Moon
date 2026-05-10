@@ -75,7 +75,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Package
-          path: target/
+          path: ./
       - name: Setup Square Cloud
         uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
         with:
