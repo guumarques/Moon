@@ -1,6 +1,5 @@
 package moon.santuario.lunar;
 
-import Event.PingCommand;
 import Ticket.BotaoTicket;
 import Ticket.CanalTicket;
 import Ticket.EmbedTicket;
@@ -29,11 +28,10 @@ public class Main
         CanalTicket canalTicket = new CanalTicket(embedTicket);
         BotaoTicket botaoTicket = new BotaoTicket(canalTicket);
         TicketDenuncia ticketDenuncia = new TicketDenuncia(embedTicket, botaoTicket);
-        PingCommand pingCommand = new PingCommand();
 
         api.addEventListener(
                 ticketDenuncia,
-                botaoTicket, pingCommand);
+                botaoTicket);
 
         api.awaitReady(); // espera o bot conectar completamente
         api.getGuildById(guild).updateCommands().queue();
