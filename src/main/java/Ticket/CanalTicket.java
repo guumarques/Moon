@@ -42,7 +42,8 @@ public class CanalTicket extends ListenerAdapter
         channel.sendMessageEmbeds(embedTicket.ticketAberto(guild, user)).queue();
     }
 
-    public CanalTicket(EmbedTicket embedTicket) {
+    public CanalTicket(EmbedTicket embedTicket)
+    {
         this.embedTicket = embedTicket;
     }
 }

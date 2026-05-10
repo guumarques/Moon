@@ -20,6 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class TicketDenunciaTest
 {
     @Mock
+    private BotaoTicket botao;
+
+    @Mock
     private MessageCreateAction messageCreateAction;
 
     @Mock
@@ -30,9 +33,6 @@ public class TicketDenunciaTest
 
     @Mock
     private TextChannel channel;
-
-    @Mock
-    private BotaoTicket botaoTicket;
 
     @Mock
     private Guild guild;
@@ -50,7 +50,7 @@ public class TicketDenunciaTest
     private TicketDenuncia denuncia;
 
     @Test
-    public void testaComando()
+    public void testaComando() //também verifica se a embed foi enviada
     {
         //arrange - define o comportamento do mock(pensando no retorno da funcionalidade)
         when(event.getGuild()).thenReturn(guild);
@@ -59,7 +59,7 @@ public class TicketDenunciaTest
         when(messageChannelUnion.getId()).thenReturn("1228530812044050503");
         when(event.getMessage()).thenReturn(message);
         when(message.getContentRaw()).thenReturn("!ticket");
-        when(botaoTicket.botao(guild)).thenReturn(Button.secondary("abrir_ticket", "Abrir"));
+        when(botao.botao(guild)).thenReturn(Button.secondary("abrir_ticket", "Abrir"));
         when(embedTicket.chatTicket(guild)).thenReturn(messageEmbed);
         when(channel.sendMessageEmbeds(messageEmbed)).thenReturn(messageCreateAction);
         when(messageCreateAction.setComponents((MessageTopLevelComponent[]) any())).thenReturn(messageCreateAction);
@@ -69,7 +69,7 @@ public class TicketDenunciaTest
 
         //assert - tô verificando comportamento, não resultado
         verify(embedTicket).chatTicket(guild); //verifica se o método chatTicket foi chamado
-        verify(botaoTicket).botao(guild);
+        verify(botao).botao(guild);
         verify(channel).sendMessageEmbeds(any(MessageEmbed.class));
     }
 }
