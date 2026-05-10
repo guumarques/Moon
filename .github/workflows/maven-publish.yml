@@ -25,10 +25,10 @@ jobs:
           cache-dependency-path: 'pom.xml' # optional
 
       - name: Test with Maven
-        run: mvn test
+        run: mvn clean test
 
       - name: Generate report
-        run: mvn surefire-report:report-only
+        run: mvn surefire-report:report
         if: always()
 
       - name: Upload test reports
@@ -36,7 +36,7 @@ jobs:
         if: always()
         with:
           name: report-tests
-          path: target/site/surefire-report.html
+          path: target/reports/surefire-report.html
 
   Build:
     needs: Test
