@@ -25,7 +25,11 @@ jobs:
           cache-dependency-path: 'pom.xml' # optional
 
       - name: Test with Maven
-        run: mvn test surefire-report:report
+        run: mvn test
+
+      - name: Generate report
+        run: mvn surefire-report:report-only
+        if: always()
 
       - name: Upload test reports
         uses: actions/upload-artifact@v4
