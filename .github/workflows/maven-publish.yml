@@ -74,7 +74,7 @@ jobs:
 
       # CASO 1: ERRO (Falha nos Testes ou no Deploy)
       - name: Send Failure Email to Dev
-        if: needs.tests.result == 'failure' || needs.build.result == 'failure'
+        if: needs.Test.result == 'failure' || needs.Build.result == 'failure'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -92,7 +92,7 @@ jobs:
 
       # CASO 2: SUCESSO
       - name: Send Success Email to Client
-        if: needs.tests.result == 'success' && needs.build.result == 'success'
+        if: needs.Test.result == 'success' && needs.Build.result == 'success'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
