@@ -67,7 +67,7 @@ jobs:
     name: Notify Email
     runs-on: ubuntu-latest
     if: always()
-    needs: [ Test, Build ]
+    needs: Deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
