@@ -86,6 +86,7 @@ jobs:
           command: commit ${{ secrets.SQUARE_APPLICATION_ID }} --restart
           token: '${{ secrets.SQUARE_TOKEN }}'
 
+
   Notification:
     name: Notify Email
     runs-on: ubuntu-latest
