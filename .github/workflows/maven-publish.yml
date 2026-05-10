@@ -76,6 +76,10 @@ jobs:
         with:
           name: Package
           path: ./
+
+      - name: Lista arquivos antes do deploy
+        run: ls -la
+
       - name: Setup Square Cloud
         uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
         with:
