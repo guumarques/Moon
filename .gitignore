@@ -4,7 +4,6 @@ target/
 !**/src/test/**/target/
 .kotlin
 htmlReport/
-config.properties
 
 ### IntelliJ IDEA ###
 .idea/

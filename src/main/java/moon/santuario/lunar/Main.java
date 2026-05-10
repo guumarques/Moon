@@ -6,10 +6,6 @@ import Ticket.EmbedTicket;
 import Ticket.TicketDenuncia;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -17,17 +13,14 @@ public class Main
 {
     static void main()
     {
-        Properties props = new Properties();
-        try
-        {
-            props.load(new FileInputStream("config.properties"));
-        } catch (IOException e)
-        {
-            throw new RuntimeException(e);
+        String token = System.getenv("BOT_TOKEN");
+
+        if (token == null) {
+            throw new IllegalStateException("Token não encontrado! Configure a variável de ambiente BOT_TOKEN");
         }
 
-        String token = props.getProperty("BOT_TOKEN");
-        JDA api = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        JDA api = JDABuilder.createDefault(token)
+                .build();
 
         EmbedTicket embedTicket = new EmbedTicket();
         CanalTicket canalTicket = new CanalTicket(embedTicket);
