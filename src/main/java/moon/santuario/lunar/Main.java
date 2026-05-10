@@ -7,7 +7,6 @@ import Ticket.TicketDenuncia;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
