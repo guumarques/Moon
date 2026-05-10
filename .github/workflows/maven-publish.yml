@@ -28,6 +28,10 @@ jobs:
         run: mvn surefire-report:report-only
         if: always()
 
+      - name: Lista arquivos gerados
+        run: find target/ -name "*.html" -o -name "*.xml" 2>/dev/null || echo "Nenhum arquivo encontrado"
+        if: always()
+
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         if: always()
