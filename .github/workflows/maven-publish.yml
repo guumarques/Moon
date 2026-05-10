@@ -63,6 +63,18 @@ jobs:
           name: Package
           path: staging
 
+
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [ Test, Build ]
+    steps:
+      - name: Setup Square Cloud
+        uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
+        with:
+          command: commit ${{ secrets.SQUARE_APPLICATION_ID }}
+          token: '${{ secrets.SQUARE_TOKEN }}'
+
   Notification:
     name: Notify Email
     runs-on: ubuntu-latest
@@ -103,21 +115,10 @@ jobs:
           subject: Novidades do Bot Moon
           body: |
             Olá! Uma nova atualização da Moon está disponível.
-            
+
             Acesse o bot atualizado no nosso servidor atualizado aqui: https://discord.gg/bHfrNHtCZK
-            
+
             Atenciosamente,
             Equipe do Santuário Lunar
           to: ${{ secrets.MY_EMAIL }}
           from: Moon <${{ secrets.MAIL_USERNAME }}>
-
-  Deploy:
-    name: Publish
-    runs-on: ubuntu-latest
-    needs: [ Test, Build ]
-    steps:
-      - name: Setup Square Cloud
-        uses: squarecloudofc/github-action@v2 # in "command" you can add the --restart flag to restart your application after the commit
-        with:
-          command: commit ${{ secrets.SQUARE_APPLICATION_ID }}
-          token: '${{ secrets.SQUARE_TOKEN }}'
