@@ -17,7 +17,7 @@ public class TicketDenuncia extends ListenerAdapter
         super.onMessageReceived(event);
 
         Guild guild = event.getGuild();
-        String idDenuncia = "1228530812044050503";
+        String idDenuncia = "1223416214110605374";
         TextChannel denunciaCanal = guild.getTextChannelById(idDenuncia);
 
         if(!event.getChannel().getId().equals(idDenuncia))
