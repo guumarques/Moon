@@ -1,21 +1,19 @@
 package Ticket;
 
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
-import net.dv8tion.jda.api.requests.restaction.WebhookMessageCreateAction;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.function.Consumer;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -23,13 +21,13 @@ import static org.mockito.Mockito.*;
 public class CriacaoCanalTest
 {
     @Mock
+    private MessageEmbed messageEmbed;
+
+    @Mock
+    private BotaoCanalNovo botaoCanalNovo;
+
+    @Mock
     private EmbedTicket embedTicket;
-
-    @Mock
-    private Role publicRole;
-
-    @Mock
-    private WebhookMessageCreateAction<Message> webhookMessageCreateAction;
 
     @Mock
     private MessageCreateAction messageCreateAction;
@@ -44,10 +42,13 @@ public class CriacaoCanalTest
     private ChannelAction<TextChannel> channelAction;
 
     @Mock
-    private TextChannel channel;
+    private Role role;
 
     @Mock
-    private InteractionHook hook;
+    private IMentionable iMentionable;
+
+    @Mock
+    private TextChannel channel;
 
     @Mock
     private Member member;
@@ -61,53 +62,42 @@ public class CriacaoCanalTest
     @Mock
     private Guild guild;
 
-    @Spy
     @InjectMocks
     private CanalTicket canalTicket;
 
-    /*@Test
+    @Test
     public void criaCanalPeloBotao()
     {
         //arrange
-
-
-        when(embedTicket.ticketAberto(any(Guild.class), any(User.class))).thenReturn(mock(MessageEmbed.class));
-        when(channel.sendMessageEmbeds(any(MessageEmbed.class))).thenReturn(messageCreateAction);
+        when(guild.getCategoryById("1223415954550034433")).thenReturn(category);
+        when(user.getName()).thenReturn("_ayanokoji");
+        when(eventButton.getMember()).thenReturn(member);
+        when(eventButton.deferReply(true)).thenReturn(replyCallbackAction);
+        when(category.createTextChannel(anyString())).thenReturn(channelAction);
+        when(channelAction.addPermissionOverride(any(), isNull(), any())).thenReturn(channelAction);
+        when(channelAction.addPermissionOverride(any(), any(), isNull())).thenReturn(channelAction);
 
         //act
         canalTicket.criarCanal(guild, user, eventButton);
 
         //assert
         verify(category).createTextChannel(anyString());  //verifica se cria o canal
-        verify(hook).sendMessage(anyString()); //verifica se mostra a mensagem efêmera
-        verify(embedTicket).ticketAberto(any(Guild.class), any(User.class)); //verifica se a embed é enviada
-    }*/
-
+    }
 
     @Test
-    void deveCriarCanalEChamarMensagem() {
-        // arrange mínimo
-        when(eventButton.getMember()).thenReturn(member);
-        when(eventButton.deferReply(true)).thenReturn(replyCallbackAction);
-        when(guild.getCategoryById("1223415954550034433")).thenReturn(category);
-        when(guild.getPublicRole()).thenReturn(publicRole); // adiciona esse
-        when(user.getName()).thenReturn("_ayanokoji");
-        when(category.createTextChannel(anyString())).thenReturn(channelAction);
-        when(channelAction.addPermissionOverride(any(), isNull(), any())).thenReturn(channelAction);
-        when(channelAction.addPermissionOverride(any(), any(), isNull())).thenReturn(channelAction);
-        doAnswer(invocation -> {
-            Consumer<TextChannel> callback = invocation.getArgument(0);
-            callback.accept(channel);
-            return null;
-        }).when(channelAction).queue(any());
-        when(eventButton.getHook()).thenReturn(hook);
-        when(hook.sendMessage(anyString())).thenReturn(webhookMessageCreateAction);
-        doNothing().when(canalTicket)
-                .mensagemCanal(any(), any(), any());
+    public void deveMensagemCanalEnviarEmbedEBotao()
+    {
+        when(guild.getRoleById("1223852657244897361")).thenReturn(role);
+        when(channel.sendMessage(iMentionable.getAsMention())).thenReturn(messageCreateAction);
+        when(embedTicket.ticketAberto(eq(guild), eq(user) )).thenReturn(messageEmbed);
+        when(botaoCanalNovo.novoCanalBotao()).thenReturn((Button.secondary("fechar_ticket", "Fechar")));
+        when(channel.sendMessageEmbeds(any(MessageEmbed.class))).thenReturn(messageCreateAction);
+        when(messageCreateAction.setComponents((MessageTopLevelComponent[]) any())).thenReturn(messageCreateAction);
 
-        // act
-        canalTicket.criarCanal(guild, user, eventButton);
-        // assert — só verifica se mensagemCanal foi chamado
-        verify(canalTicket).mensagemCanal(channel, guild, user);
+        canalTicket.mensagemCanal(channel, guild, user);
+
+        verify(embedTicket).ticketAberto(guild, user);
+        verify(botaoCanalNovo).novoCanalBotao();
+        verify(channel).sendMessageEmbeds(any(MessageEmbed.class));
     }
 }

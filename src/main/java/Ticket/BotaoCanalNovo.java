@@ -1,11 +1,9 @@
 package Ticket;
 
 import net.dv8tion.jda.api.components.buttons.Button;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BotaoCanalNovo extends ListenerAdapter
 {
-    public Button novoCanalBotao(TextChannel channel)
+    public Button novoCanalBotao()
     {
         return Button.secondary("fechar_ticket", "Fechar");
     }

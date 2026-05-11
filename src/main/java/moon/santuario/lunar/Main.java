@@ -34,5 +34,6 @@ public class Main
 
         api.awaitReady(); // espera o bot conectar completamente
         api.getGuildById(guild).updateCommands().queue();
+
     }
 }
