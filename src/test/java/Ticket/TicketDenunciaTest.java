@@ -54,9 +54,9 @@ public class TicketDenunciaTest
     {
         //arrange - define o comportamento do mock(pensando no retorno da funcionalidade)
         when(event.getGuild()).thenReturn(guild);
-        when(guild.getTextChannelById("1228530812044050503")).thenReturn(channel);
+        when(guild.getTextChannelById("1223416214110605374")).thenReturn(channel);
         when(event.getChannel()).thenReturn(messageChannelUnion);
-        when(messageChannelUnion.getId()).thenReturn("1228530812044050503");
+        when(messageChannelUnion.getId()).thenReturn("1223416214110605374");
         when(event.getMessage()).thenReturn(message);
         when(message.getContentRaw()).thenReturn("!ticket");
         when(botao.botao(guild)).thenReturn(Button.secondary("abrir_ticket", "Abrir"));
