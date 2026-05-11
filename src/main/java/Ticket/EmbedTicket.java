@@ -31,9 +31,9 @@ public class EmbedTicket
                 .setDescription("**" + user.getGlobalName() + "**" + ", um staff irá atendê-lo em alguns instantes."
                         + " Por favor, aguarde! \n\n し**Enquanto isso, por favor, informe sua denúncia. Siga as**"
                         + " **recomendações abaixo.**")
-                .addField("<a:9174heartarrow:1225889006995112048> Violação por escrito:", "Caso tenha acontecido alguma quebra de regra em um chat "
+                .addField("<a:9174heartarrow:1503204757735739474> Violação por escrito:", "Caso tenha acontecido alguma quebra de regra em um chat "
                         + "público do servidor, favor enviar uma captura de tela e, posteriormente, um staff irá analisar.", false)
-                .addField("<a:9174heartarrow:1225889006995112048> Violação por chamada de voz:", """
+                .addField("<a:9174heartarrow:1503204757735739474> Violação por chamada de voz:", """
                         Caso tenha acontecido alguma quebra de regra em uma\
                          chamada de voz do servidor, favor anexar uma gravação de vídeo referente ao acontecimento.\
                          Caso não seja possível, favor chamar um staff.

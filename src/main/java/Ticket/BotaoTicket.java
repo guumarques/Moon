@@ -20,7 +20,7 @@ public class BotaoTicket extends ListenerAdapter
     public Button botao(Guild guild)
     {
         this.guild = guild;
-        return Button.secondary("abrir_ticket", "Abrir" );
+        return Button.secondary("abrir_ticket", "Abrir");
     }
 
     @Override

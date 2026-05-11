@@ -1,6 +1,7 @@
 package Ticket;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
@@ -13,7 +14,8 @@ import java.util.EnumSet;
 
 public class CanalTicket extends ListenerAdapter
 {
-    private final EmbedTicket embedTicket;
+    private EmbedTicket embedTicket;
+    private BotaoCanalNovo botaoCanalNovo;
 
     public void criarCanal(Guild guild, User user, ButtonInteractionEvent event)
     {
@@ -39,11 +41,12 @@ public class CanalTicket extends ListenerAdapter
 
     public void mensagemCanal(TextChannel channel, Guild guild, User user)
     {
-        channel.sendMessageEmbeds(embedTicket.ticketAberto(guild, user)).queue();
+        channel.sendMessageEmbeds(embedTicket.ticketAberto(guild, user)).setComponents(ActionRow.of(botaoCanalNovo.novoCanalBotao(channel))).queue();
     }
 
-    public CanalTicket(EmbedTicket embedTicket)
+    public CanalTicket(EmbedTicket embedTicket, BotaoCanalNovo botaoCanalNovo)
     {
         this.embedTicket = embedTicket;
+        this.botaoCanalNovo = botaoCanalNovo;
     }
 }

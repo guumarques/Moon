@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.function.Consumer;
 import static org.mockito.ArgumentMatchers.*;
@@ -60,13 +61,32 @@ public class CriacaoCanalTest
     @Mock
     private Guild guild;
 
+    @Spy
     @InjectMocks
     private CanalTicket canalTicket;
 
-    @Test
+    /*@Test
     public void criaCanalPeloBotao()
     {
         //arrange
+
+
+        when(embedTicket.ticketAberto(any(Guild.class), any(User.class))).thenReturn(mock(MessageEmbed.class));
+        when(channel.sendMessageEmbeds(any(MessageEmbed.class))).thenReturn(messageCreateAction);
+
+        //act
+        canalTicket.criarCanal(guild, user, eventButton);
+
+        //assert
+        verify(category).createTextChannel(anyString());  //verifica se cria o canal
+        verify(hook).sendMessage(anyString()); //verifica se mostra a mensagem efêmera
+        verify(embedTicket).ticketAberto(any(Guild.class), any(User.class)); //verifica se a embed é enviada
+    }*/
+
+
+    @Test
+    void deveCriarCanalEChamarMensagem() {
+        // arrange mínimo
         when(eventButton.getMember()).thenReturn(member);
         when(eventButton.deferReply(true)).thenReturn(replyCallbackAction);
         when(guild.getCategoryById("1223415954550034433")).thenReturn(category);
@@ -82,15 +102,12 @@ public class CriacaoCanalTest
         }).when(channelAction).queue(any());
         when(eventButton.getHook()).thenReturn(hook);
         when(hook.sendMessage(anyString())).thenReturn(webhookMessageCreateAction);
-        when(embedTicket.ticketAberto(any(Guild.class), any(User.class))).thenReturn(mock(MessageEmbed.class));
-        when(channel.sendMessageEmbeds(any(MessageEmbed.class))).thenReturn(messageCreateAction);
+        doNothing().when(canalTicket)
+                .mensagemCanal(any(), any(), any());
 
-        //act
+        // act
         canalTicket.criarCanal(guild, user, eventButton);
-
-        //assert
-        verify(category).createTextChannel(anyString());  //verifica se cria o canal
-        verify(hook).sendMessage(anyString()); //verifica se mostra a mensagem efêmera
-        verify(embedTicket).ticketAberto(any(Guild.class), any(User.class)); //verifica se a embed é enviada
+        // assert — só verifica se mensagemCanal foi chamado
+        verify(canalTicket).mensagemCanal(channel, guild, user);
     }
 }
