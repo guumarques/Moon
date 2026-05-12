@@ -2,6 +2,7 @@ package moon.santuario.lunar;
 
 import Parceria.Command.ParceriaComando;
 import Parceria.Ticket.*;
+import TKiller.TKiller;
 import Ticket.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -46,6 +47,7 @@ public class Main
         ParceriaTicket parceriaTicket = new ParceriaTicket(embedTicketParceria, botaoTicketParceria);
         ParceriaComando parceriaComando = new ParceriaComando(guild);
 
+        TKiller tKillerComando = new TKiller();
         api.addEventListener(
                 ticketDenuncia,
                 botaoTicket,
@@ -54,7 +56,9 @@ public class Main
                 parceriaTicket,
                 botaoTicketParceria,
                 botaoCanalNovoParceria,
-                parceriaComando
+                parceriaComando,
+
+                tKillerComando
                 );
 
         guild.updateCommands().addCommands
@@ -63,7 +67,10 @@ public class Main
                         .addSubcommands(
                                 new SubcommandData("setar", "seta um parceiro")
                                         .addOption(OptionType.USER, "nome", "Selecione o membro", true)
-                        )
+                        ),
+                Commands.slash("matartesao", "mata o tesão de alguém")
+                        .addOption(OptionType.USER, "usuario1", "nome do primeiro usuário", true)
+                        .addOption(OptionType.USER, "usuario2", "nome do segundo usuário", true)
         ).queue();
     }
 }
