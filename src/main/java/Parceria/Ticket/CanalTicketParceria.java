@@ -1,0 +1,57 @@
+package Parceria.Ticket;
+
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.Category;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.EnumSet;
+
+public class CanalTicketParceria extends ListenerAdapter
+{
+    private final EmbedTicketParceria embedTicket;
+    private final BotaoCanalNovoParceria botaoCanalNovo;
+
+    public CanalTicketParceria(EmbedTicketParceria embedTicket, BotaoCanalNovoParceria botaoCanalNovo) {
+        this.embedTicket = embedTicket;
+        this.botaoCanalNovo = botaoCanalNovo;
+    }
+
+    public void criarCanal(Guild guild, User user, ButtonInteractionEvent event)
+    {
+        Category category = guild.getCategoryById("1227975047029723247");
+        String nome = user.getName();
+        Member member = event.getMember();
+
+        event.deferReply(true).queue();
+        if(category != null && member != null)
+        {
+            category.createTextChannel(nome)
+                    .addPermissionOverride(guild.getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL)) // Deny @everyone
+                    .addPermissionOverride(member, EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_EMBED_LINKS), null) // Allow specific member
+                    .queue(
+                            canal ->
+                            {
+                                event.getHook().sendMessage("Canal criado em " + canal.getAsMention()).queue();
+                                mensagemCanal(canal, guild, user);
+                            }
+                    );
+        }
+    }
+
+    public void mensagemCanal(TextChannel channel, Guild guild, User user)
+    {
+        Role staff = guild.getRoleById("1244410454458110092");
+        if(staff != null)
+        {
+            channel.sendMessage(staff.getAsMention()).queue();
+            channel.sendMessageEmbeds(embedTicket.ticketAberto(guild, user)).setComponents(ActionRow.of(botaoCanalNovo.novoCanalBotao())).queue();
+        }
+    }
+}

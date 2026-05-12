@@ -1,5 +1,6 @@
 package moon.santuario.lunar;
 
+import Parceria.Ticket.*;
 import Ticket.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -27,10 +28,21 @@ public class Main
         BotaoTicket botaoTicket = new BotaoTicket(canalTicket);
         TicketDenuncia ticketDenuncia = new TicketDenuncia(embedTicket, botaoTicket);
 
+        EmbedTicketParceria embedTicketParceria = new EmbedTicketParceria();
+        BotaoCanalNovoParceria botaoCanalNovoParceria = new BotaoCanalNovoParceria();
+        CanalTicketParceria canalTicketParceria = new CanalTicketParceria(embedTicketParceria, botaoCanalNovoParceria);
+        BotaoTicketParceria botaoTicketParceria = new BotaoTicketParceria(canalTicketParceria);
+        ParceriaTicket parceriaTicket = new ParceriaTicket(embedTicketParceria, botaoTicketParceria);
+
         api.addEventListener(
                 ticketDenuncia,
                 botaoTicket,
-                botaoCanalNovo);
+                botaoCanalNovo,
+
+                parceriaTicket,
+                botaoTicketParceria,
+                botaoCanalNovoParceria
+                );
 
         api.awaitReady(); // espera o bot conectar completamente
         api.getGuildById(guild).updateCommands().queue();
