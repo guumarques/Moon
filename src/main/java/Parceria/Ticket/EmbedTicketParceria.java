@@ -46,7 +46,7 @@ public class EmbedTicketParceria extends ListenerAdapter
     {
         Color minhacor = new Color(255, 255, 255);
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("<:78391starquestionmark:1503585361442508962> Como Solicitar Parceria <:StarQuestionMark:1340348217589764116>")
+                .setTitle("<:78391starquestionmark:1503585361442508962> Como Solicitar Parceria <:78391starquestionmark:1503585361442508962>")
                 .setThumbnail(guild.getIconUrl())
                 .setDescription("**Antes de enviar sua solicitação, verifique se seu servidor atende aos requisitos:**\n\n"
                         + "<a:Love:1503575713897517138> Mínimo de **2000 membros**\n"
