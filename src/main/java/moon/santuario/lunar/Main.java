@@ -1,9 +1,14 @@
 package moon.santuario.lunar;
 
+import Parceria.Command.ParceriaComando;
 import Parceria.Ticket.*;
 import Ticket.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -12,15 +17,21 @@ public class Main
 {
     static void main() throws InterruptedException
     {
-        String guild = "1223392724497993778";
         String token = System.getenv("BOT_TOKEN");
 
-        if (token == null) {
+        if (token == null)
+        {
             throw new IllegalStateException("Token não encontrado! Configure a variável de ambiente BOT_TOKEN");
         }
 
-        JDA api = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .build();
+        JDA api = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        api.awaitReady(); // espera o bot conectar completamente
+        Guild guild = api.getGuildById("1223392724497993778");
+        if (guild == null)
+        {
+            System.out.println("Guild não encontrada!");
+            return;
+        }
 
         EmbedTicket embedTicket = new EmbedTicket();
         BotaoCanalNovo botaoCanalNovo = new BotaoCanalNovo();
@@ -33,6 +44,7 @@ public class Main
         CanalTicketParceria canalTicketParceria = new CanalTicketParceria(embedTicketParceria, botaoCanalNovoParceria);
         BotaoTicketParceria botaoTicketParceria = new BotaoTicketParceria(canalTicketParceria);
         ParceriaTicket parceriaTicket = new ParceriaTicket(embedTicketParceria, botaoTicketParceria);
+        ParceriaComando parceriaComando = new ParceriaComando(guild);
 
         api.addEventListener(
                 ticketDenuncia,
@@ -41,11 +53,17 @@ public class Main
 
                 parceriaTicket,
                 botaoTicketParceria,
-                botaoCanalNovoParceria
+                botaoCanalNovoParceria,
+                parceriaComando
                 );
 
-        api.awaitReady(); // espera o bot conectar completamente
-        api.getGuildById(guild).updateCommands().queue();
-
+        guild.updateCommands().addCommands
+                (
+                Commands.slash("parceria", "seta uma parceria")
+                        .addSubcommands(
+                                new SubcommandData("setar", "seta um parceiro")
+                                        .addOption(OptionType.USER, "nome", "Selecione o membro", true)
+                        )
+        ).queue();
     }
 }
