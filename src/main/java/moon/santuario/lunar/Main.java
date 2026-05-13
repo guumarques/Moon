@@ -27,7 +27,7 @@ public class Main
             throw new IllegalStateException("Token não encontrado! Configure a variável de ambiente BOT_TOKEN");
         }
 
-        JDA api = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        JDA api = JDABuilder.createDefault(token).enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS).build();
         api.awaitReady(); // espera o bot conectar completamente
         Guild guild = api.getGuildById("1223392724497993778");
         if (guild == null)

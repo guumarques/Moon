@@ -2,8 +2,8 @@ package Topic;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.Executors;
@@ -26,18 +26,18 @@ public class ChangeTopic extends ListenerAdapter
     }
 
     @Override
-    public void onGuildJoin(@NotNull GuildJoinEvent event)
+    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event)
     {
         topico();
     }
 
     @Override
-    public void onGuildLeave(@NotNull GuildLeaveEvent event)
+    public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event)
     {
         topico();
     }
 
-    private void topico()
+    public void topico()
     {
         TextChannel channel = guild.getTextChannelById("1223664906138816703");
         int memberCount = guild.getMemberCount();
@@ -55,6 +55,6 @@ public class ChangeTopic extends ListenerAdapter
             String topico = formarNumeros.formarNumerosComEmojis(memberCount);
             String palavras = formarNumeros.outrosEmojis();
             channel.getManager().setTopic(palavras + topico).queue();
-        }, 5, TimeUnit.MINUTES );
+        }, 5, TimeUnit.MINUTES);
     }
 }
