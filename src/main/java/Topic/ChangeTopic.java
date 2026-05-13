@@ -9,12 +9,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ChangeTopic extends ListenerAdapter
 {
     private final Guild guild;
     private final FormarNumeros formarNumeros;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public ChangeTopic(Guild guild,FormarNumeros formarNumeros)
     {
@@ -47,6 +50,8 @@ public class ChangeTopic extends ListenerAdapter
 
         scheduler.schedule(() ->
         {
+            System.out.println(LocalDateTime.now().format(FORMATTER) + " -> " + memberCount + " membros agora");
+
             String topico = formarNumeros.formarNumerosComEmojis(memberCount);
             String palavras = formarNumeros.outrosEmojis();
             channel.getManager().setTopic(palavras + topico).queue();
