@@ -28,13 +28,13 @@ public class ChangeTopic extends ListenerAdapter
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event)
     {
-        topico();
+        Agenda();
     }
 
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event)
     {
-        topico();
+        Agenda();
     }
 
     public void topico()
@@ -48,13 +48,16 @@ public class ChangeTopic extends ListenerAdapter
             return;
         }
 
-        scheduler.schedule(() ->
-        {
-            System.out.println(LocalDateTime.now().format(FORMATTER) + " -> " + memberCount + " membros agora");
+        System.out.println(LocalDateTime.now().format(FORMATTER) + " -> " + memberCount + " membros agora");
 
-            String topico = formarNumeros.formarNumerosComEmojis(memberCount);
-            String palavras = formarNumeros.outrosEmojis();
-            channel.getManager().setTopic(palavras + topico).queue();
-        }, 5, TimeUnit.MINUTES);
+        String topico = formarNumeros.formarNumerosComEmojis(memberCount);
+        String palavras = formarNumeros.outrosEmojis();
+        channel.getManager().setTopic(palavras + topico).queue();
     }
+
+    public void Agenda()
+    {
+        scheduler.schedule(this::topico, 5, TimeUnit.MINUTES);
+    }
+
 }
