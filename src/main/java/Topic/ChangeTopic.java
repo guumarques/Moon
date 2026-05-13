@@ -1,11 +1,55 @@
 package Topic;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ChangeTopic extends ListenerAdapter
 {
-    public void mudaTopicoCanal()
-    {
+    private final Guild guild;
+    private final FormarNumeros formarNumeros;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
+    public ChangeTopic(Guild guild,FormarNumeros formarNumeros)
+    {
+        this.guild = guild;
+        this.formarNumeros = formarNumeros;
+    }
+
+    @Override
+    public void onGuildJoin(@NotNull GuildJoinEvent event)
+    {
+        topico();
+    }
+
+    @Override
+    public void onGuildLeave(@NotNull GuildLeaveEvent event)
+    {
+        topico();
+    }
+
+    private void topico()
+    {
+        TextChannel channel = guild.getTextChannelById("1223664906138816703");
+        int memberCount = guild.getMemberCount();
+
+        if(channel == null)
+        {
+            System.out.println("Canal inexistente - TOPIC");
+            return;
+        }
+
+        scheduler.schedule(() ->
+        {
+            String topico = formarNumeros.formarNumerosComEmojis(memberCount);
+            String palavras = formarNumeros.outrosEmojis();
+            channel.getManager().setTopic(palavras + topico).queue();
+        }, 5, TimeUnit.MINUTES );
     }
 }
