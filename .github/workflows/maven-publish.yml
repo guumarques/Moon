@@ -65,12 +65,19 @@ jobs:
 
 
   Deploy:
+    needs: Build
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v6 # Required to use the file system
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: Package
+
       - uses: discloud/deploy-action@v1
         with:
-          token: ${{ secrets.DISCLOUD_TOKEN }} # Required
+          token: ${{ secrets.DISCLOUD_TOKEN }}
           app_id: ${{ secrets.APP_ID }}
 
 
