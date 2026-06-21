@@ -46,7 +46,5 @@ build/
 # Sistema operacional
 .DS_Store
 Thumbs.db
-.discloudignore
 .zip
-discloud.config
 .jar

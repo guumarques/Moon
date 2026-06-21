@@ -1,0 +1,9 @@
+.git
+.github
+.idea
+src
+target
+htmlReport
+pom.xml
+README.md
+.gitignore
