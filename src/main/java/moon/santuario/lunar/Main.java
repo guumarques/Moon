@@ -24,8 +24,6 @@ public class Main
         Dotenv dotenv = Dotenv.load();
         String token = dotenv.get("BOT_TOKEN");
 
-        System.out.println("Estou na hospedagem!");
-
         if (token == null)
         {
             throw new IllegalStateException("Token não encontrado! Configure a variável de ambiente BOT_TOKEN");
@@ -40,6 +38,7 @@ public class Main
             return;
         }
 
+        System.out.println("Estou na hospedagem!");
         EmbedTicket embedTicket = new EmbedTicket();
         BotaoCanalNovo botaoCanalNovo = new BotaoCanalNovo();
         CanalTicket canalTicket = new CanalTicket(embedTicket, botaoCanalNovo);
