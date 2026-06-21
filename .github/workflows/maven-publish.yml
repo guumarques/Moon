@@ -72,7 +72,6 @@ jobs:
         with:
           token: ${{ secrets.DISCLOUD_TOKEN }} # Required
           app_id: ${{ secrets.APP_ID }}
-          env: ${{ secrets.ENV }}
 
 
   Notification:
