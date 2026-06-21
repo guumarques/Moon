@@ -38,7 +38,6 @@ public class Main
             return;
         }
 
-        System.out.println("Estou na hospedagem!");
         EmbedTicket embedTicket = new EmbedTicket();
         BotaoCanalNovo botaoCanalNovo = new BotaoCanalNovo();
         CanalTicket canalTicket = new CanalTicket(embedTicket, botaoCanalNovo);
