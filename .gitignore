@@ -3,6 +3,7 @@
 !**/src/test/**/target/
 .kotlin
 htmlReport/
+.env
 
 ### Target ###
 target/
@@ -45,3 +46,7 @@ build/
 # Sistema operacional
 .DS_Store
 Thumbs.db
+.discloudignore
+.zip
+discloud.config
+.jar

@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import io.github.cdimascio.dotenv.Dotenv;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -20,7 +21,8 @@ public class Main
 {
     static void main() throws InterruptedException
     {
-        String token = System.getenv("BOT_TOKEN");
+        Dotenv dotenv = Dotenv.load();
+        String token = dotenv.get("BOT_TOKEN");
 
         if (token == null)
         {
