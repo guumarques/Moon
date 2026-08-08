@@ -4,6 +4,7 @@
 .kotlin
 htmlReport/
 .env
+auditoria_golpe_aposta.log
 
 ### Target ###
 target/

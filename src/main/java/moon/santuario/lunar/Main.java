@@ -2,6 +2,8 @@ package moon.santuario.lunar;
 
 import Parceria.Command.ParceriaComando;
 import Parceria.Ticket.*;
+import Seguranca.BancoImagensGolpe;
+import Seguranca.MonitorGolpeAposta;
 import TKiller.TKiller;
 import Ticket.*;
 import Topic.ChangeTopic;
@@ -14,6 +16,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import io.github.cdimascio.dotenv.Dotenv;
+
+import java.io.IOException;
+import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -55,7 +60,7 @@ public class Main
         FormarNumeros formarNumeros = new FormarNumeros();
         ChangeTopic changeTopic = new ChangeTopic(guild, formarNumeros);
 
-        api.addEventListener(
+        List<Object> listeners = new java.util.ArrayList<>(List.of(
                 ticketDenuncia,
                 botaoTicket,
                 botaoCanalNovo,
@@ -67,7 +72,25 @@ public class Main
 
                 tKillerComando,
                 changeTopic
-                );
+        ));
+
+        try
+        {
+            BancoImagensGolpe bancoImagensGolpe = new BancoImagensGolpe("imagens");
+            List<String> canaisMonitorados = List.of(
+                    "1247769364262817843",
+                    "1508497525089239232",
+                    "1247413112777474049",
+                    "1508468229046009948"
+            );
+            listeners.add(new MonitorGolpeAposta(canaisMonitorados, bancoImagensGolpe));
+        }
+        catch (IOException e)
+        {
+            System.out.println("Monitor de golpe de aposta desativado: " + e.getMessage());
+        }
+
+        api.addEventListener(listeners.toArray());
 
         guild.updateCommands().addCommands
                 (
